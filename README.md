@@ -115,6 +115,17 @@ $ cp /path/to/hadoop-1.2.1.tar.gz /path/to/local-hadoop
 $ cp /path/to/mahout-distribution-0.9.tar.gz /path/to/local-hadoop
 ```
 
+### Hive
+以下のURLよりダウンロードしてください。
+
+* http://ftp.tsukuba.wide.ad.jp/software/apache/hive/hive-0.12.0/hive-0.12.0.tar.gz
+
+ダウンロードしたファイルは`git clone`した`local-hadoop`ディレクトリ直下に置いてください。
+
+```shell
+$ cp /path/to/hive-0.12.0.tar.gz /path/to/local-hadoop
+```
+
 
 　
 Sampleの実行
