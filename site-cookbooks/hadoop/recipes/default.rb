@@ -251,6 +251,55 @@ end
 
 
 # -----------------------------------------
+# install hive
+
+if File.exists?("/vagrant/hive-0.12.0.tar.gz")
+    execute "copy hive-0.12.0.tar.gz" do
+        command "cp /vagrant/hive-0.12.0.tar.gz /tmp"
+        user "vagrant"
+        group "vagrant"
+        action :run
+        notifies :run, "execute[tar hive]", :immediately
+        not_if { File.exists?("#{node['hive']['install_dir']}/hive-0.12.0") }
+    end
+else
+    execute "wget hive" do
+        cwd "/tmp"
+        command "wget http://ftp.tsukuba.wide.ad.jp/software/apache/hive/hive-0.12.0/hive-0.12.0.tar.gz"
+        user "vagrant"
+        group "vagrant"
+        action :run
+        notifies :run, "execute[tar hive]", :immediately
+        not_if { File.exists?("#{node['hive']['install_dir']}/hive-0.12.0") }
+    end
+end
+
+
+execute "tar hive" do
+    cwd "/tmp"
+    command "tar zxf hive-0.12.0.tar.gz"
+    user "vagrant"
+    group "vagrant"
+    action :run
+    notifies :run, "execute[move hive]", :immediately
+    not_if { File.exists?("#{node['hive']['install_dir']}/hive-0.12.0") }
+end
+
+
+execute "move hive" do
+    cwd "/tmp"
+    command <<-_EOF_
+        mv hive-0.12.0 #{node['hive']['install_dir']}
+        ln -s #{node['hive']['install_dir']}/hive-0.12.0 #{node['hive']['install_dir']}/hive
+    _EOF_
+    user "root"
+    group "root"
+    action :run
+    not_if { File.exists?("#{node['hive']['install_dir']}/hive-0.12.0") }
+end
+
+
+# -----------------------------------------
 # stop hadoop
 
 execute "stop hadoop" do
