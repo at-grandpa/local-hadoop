@@ -282,3 +282,15 @@ execute "start hadoop" do
     action :run
 end
 
+
+# -----------------------------------------
+# makedir sample on hdfs
+
+execute "makedir sample on hdfs" do
+    command "/usr/local/hadoop/bin/hadoop dfs -mkdir sample"
+    user "vagrant"
+    group "vagrant"
+    action :run
+end
+
+
